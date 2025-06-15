@@ -1,0 +1,172 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #8B4513 0%, #D2B48C 100%);
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+/* Main register box */
+.register-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Header section */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.company-name {
+  color: #8B4513;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Form styling */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Name row for first and last name */
+.name-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.half-width {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #8B4513;
+}
+
+.input:hover {
+  border-color: #D2B48C;
+}
+
+/* Register button */
+.register-button {
+  background-color: #8B4513;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.register-button:hover {
+  background-color: #654321;
+}
+
+.register-button:active {
+  transform: translateY(1px);
+}
+
+/* Footer section */
+.footer {
+  text-align: center;
+}
+
+.link {
+  color: #8B4513;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #654321;
+  text-decoration: underline;
+}
+
+.login-text {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .register-box {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+  
+  .name-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .half-width {
+    margin-bottom: 20px;
+  }
+  
+  .company-name {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-box {
+    padding: 25px 15px;
+  }
+  
+  .input {
+    padding: 10px;
+  }
+  
+  .register-button {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,136 @@
+/* Container for the entire login page */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #8B4513 0%, #D2B48C 100%);
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+/* Main login box */
+.login-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Header section */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.company-name {
+  color: #8B4513;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Form styling */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e1e1e1;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #8B4513;
+}
+
+.input:hover {
+  border-color: #D2B48C;
+}
+
+/* Login button */
+.login-button {
+  background-color: #8B4513;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.login-button:hover {
+  background-color: #654321;
+}
+
+.login-button:active {
+  transform: translateY(1px);
+}
+
+/* Footer section */
+.footer {
+  text-align: center;
+}
+
+.link {
+  color: #8B4513;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #654321;
+  text-decoration: underline;
+}
+
+.signup-text {
+  color: #666;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .login-box {
+    padding: 30px 20px;
+  }
+  
+  .company-name {
+    font-size: 20px;
+  }
+}
