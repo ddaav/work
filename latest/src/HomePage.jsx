@@ -172,7 +172,7 @@ export default function HomePage() {
               <h4>Contact Info</h4>
               <p>📞 (977) 9800000000</p>
               <p>📧 info@shadesdesign.com</p>
-              <p>📍 sirutar chowk, <Bhaktapur></Bhaktapur></p>
+              <p>📍 sirutar chowk, Bhaktapur</p>
             </div>
           </div>
           <div className="footer-bottom">
