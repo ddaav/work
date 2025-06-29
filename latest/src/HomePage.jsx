@@ -5,6 +5,7 @@ import './HomePage.css';
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   
@@ -29,27 +30,51 @@ export default function HomePage() {
   const featuredProducts = [
     {
       name: "Modern Sofa Set",
-      price: "$1,299",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      price: "Npr 1,00,000",
+      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      category: "Living Room"
     },
     {
       name: "Oak Dining Table",
-      price: "$899",
-      image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      price: "Npr 50,000",
+      image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      category: "Dining"
     },
     {
       name: "Luxury Bed Frame",
-      price: "$1,599",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      price: "Npr 1,00,000",
+      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      category: "Bedroom"
     },
     {
       name: "Office Chair",
-      price: "$399",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+      price: "Npr 10,000",
+      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      category: "Office"
+    },
+    {
+      name: "Accent Chair",
+      price: "Npr 10,000",
+      image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      category: "Living Room"
+    },
+    {
+      name: "Coffee Table",
+      price: "Npr 10,000",
+      image: "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+      category: "Living Room"
     }
   ];
 
+  const stats = [
+    { number: "500+", label: "Happy Customers" },
+    { number: "50+", label: "Products" },
+    { number: "24/7", label: "Support" },
+    { number: "5+", label: "Years Experience" }
+  ];
+
   useEffect(() => {
+    setIsLoaded(true);
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
@@ -75,7 +100,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="homepage">
+    <div className={`homepage ${isLoaded ? 'loaded' : ''}`}>
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
@@ -144,10 +169,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Stats Section */}
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-grid">
+            {stats.map((stat, index) => (
+              <div key={index} className="stat-item">
+                <div className="stat-number">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Products */}
       <section id="products" className="featured-products">
+      <h2 className="section-title">Featured Products</h2>
+      <p className="section-subtitle">Discover our handpicked collection of premium furniture</p>
         <div className="container">
-          <h2 className="section-title">Featured Products</h2>
+          <div className="section-header">
+           
+          </div>
           <div className="products-grid">
             {featuredProducts.map((product, index) => (
               <div key={index} className="product-card">
@@ -156,6 +199,7 @@ export default function HomePage() {
                   <div className="product-overlay">
                     <button className="product-btn">View Details</button>
                   </div>
+                  <div className="product-category">{product.category}</div>
                 </div>
                 <div className="product-info">
                   <h3 className="product-name">{product.name}</h3>
@@ -178,6 +222,29 @@ export default function HomePage() {
                 With years of experience and a passionate team, we strive to exceed expectations 
                 and deliver exceptional value.
               </p>
+              <div className="about-features">
+                <div className="feature">
+                  <div className="feature-icon">✨</div>
+                  <div className="feature-text">
+                    <h4>Premium Quality</h4>
+                    <p>Handcrafted with the finest materials</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <div className="feature-icon">🚚</div>
+                  <div className="feature-text">
+                    <h4>Fast Delivery</h4>
+                    <p>Free shipping on all orders</p>
+                  </div>
+                </div>
+                <div className="feature">
+                  <div className="feature-icon">🛡️</div>
+                  <div className="feature-text">
+                    <h4>Warranty</h4>
+                    <p>5-year warranty on all products</p>
+                  </div>
+                </div>
+              </div>
               <button className="about-btn">Learn More</button>
             </div>
             <div className="about-image">
