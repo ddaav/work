@@ -1,56 +1,110 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
 import './LoginPage.css';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    // Handle login logic here
-    console.log('Login attempt:', { email, password });
-    alert('Login functionality would be implemented here');
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+    setError(''); // Clear error when user starts typing
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    // Basic validation
+    if (!formData.email || !formData.password) {
+      setError('Please fill in all fields');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.email.includes('@')) {
+      setError('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    const result = await login(formData.email, formData.password);
+    
+    if (result.success) {
+      navigate('/');
+    } else {
+      setError(result.error);
+    }
+    
+    setLoading(false);
   };
 
   return (
     <div className="container">
       <div className="login-box">
         <div className="header">
-          <h1 className="company-name">Shades Design Furniture</h1>
+          <h1 className="company-name">Welcome Back</h1>
           <p className="subtitle">Sign in to your account</p>
         </div>
-        
-        <div className="form">
+
+        <form className="form" onSubmit={handleSubmit}>
+          {error && <div className="error-message">{error}</div>}
+          
           <div className="input-group">
-            <label className="label">Email</label>
+            <label className="label" htmlFor="email">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+              name="email"
               className="input"
+              value={formData.email}
+              onChange={handleInputChange}
               placeholder="Enter your email"
+              required
             />
           </div>
-          
+
           <div className="input-group">
-            <label className="label">Password</label>
+            <label className="label" htmlFor="password">Password</label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              name="password"
               className="input"
+              value={formData.password}
+              onChange={handleInputChange}
               placeholder="Enter your password"
+              required
             />
           </div>
-          
-          <button onClick={handleSubmit} className="login-button">
-            Sign In
+
+          <button 
+            type="submit" 
+            className="login-button"
+            disabled={loading}
+          >
+            {loading ? 'Signing In...' : 'Sign In'}
           </button>
-        </div>
-        
+        </form>
+
         <div className="footer">
-          <a href="#" className="link">Forgot your password?</a>
           <p className="signup-text">
-            Don't have an account? <a href="#" className="link">Sign up</a>
+            Don't have an account?{' '}
+            <Link to="/register" className="link">
+              Sign up here
+            </Link>
           </p>
         </div>
       </div>

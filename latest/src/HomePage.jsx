@@ -1,24 +1,28 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
 import './HomePage.css';
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   
   const slides = [
     {
-      title: "Modern Living Spaces",
-      subtitle: "Transform your home with our contemporary furniture collection",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+      title: "Welcome to Our Platform",
+      subtitle: "Discover amazing features and services",
+      image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
     },
     {
-      title: "Elegant Bedroom Sets",
-      subtitle: "Create your perfect sanctuary with our luxury bedroom furniture",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+      title: "Premium Quality",
+      subtitle: "Experience the best in class service",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2126&q=80"
     },
     {
-      title: "Designer Dining Rooms",
-      subtitle: "Bring family together with our stunning dining room collections",
-      image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+      title: "24/7 Support",
+      subtitle: "We're here to help you anytime",
+      image: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     }
   ];
 
@@ -45,6 +49,14 @@ export default function HomePage() {
     }
   ];
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   };
@@ -53,59 +65,87 @@ export default function HomePage() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="homepage">
       {/* Navigation */}
       <nav className="navbar">
         <div className="nav-container">
           <div className="logo">
-            <h2>Shades Design Furniture</h2>
+            <h2>YourBrand</h2>
           </div>
-          <div className="nav-menu">
-            <a href="#home" className="nav-link">Home</a>
-            <a href="#products" className="nav-link">Products</a>
-            <a href="#about" className="nav-link">About</a>
-            <a href="#contact" className="nav-link">Contact</a>
-            <div className="nav-buttons">
-              <button className="nav-btn login-btn">Login</button>
-              <button className="nav-btn register-btn">Register</button>
-            </div>
+          
+          <ul className="nav-menu">
+            <li><Link to="/" className="nav-link">Home</Link></li>
+            <li><a href="#products" className="nav-link">Products</a></li>
+            <li><a href="#about" className="nav-link">About</a></li>
+            <li><a href="#contact" className="nav-link">Contact</a></li>
+          </ul>
+
+          <div className="nav-buttons">
+            {user ? (
+              <>
+                <span className="user-welcome">Welcome, {user.firstName}!</span>
+                <button onClick={handleLogout} className="nav-btn login-btn">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="nav-btn login-btn">Login</Link>
+                <Link to="/register" className="nav-btn register-btn">Sign Up</Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
 
-      {/* Hero Section with Slider */}
+      {/* Hero Slider */}
       <section className="hero-slider">
         <div className="slide-container">
           {slides.map((slide, index) => (
-            <div 
+            <div
               key={index}
               className={`slide ${index === currentSlide ? 'active' : ''}`}
-              style={{backgroundImage: `url(${slide.image})`}}
+              style={{ backgroundImage: `url(${slide.image})` }}
             >
               <div className="slide-content">
                 <h1 className="slide-title">{slide.title}</h1>
                 <p className="slide-subtitle">{slide.subtitle}</p>
-                <button className="cta-button">Shop Now</button>
+                <button className="cta-button">Get Started</button>
               </div>
             </div>
           ))}
         </div>
-        <button className="slider-btn prev-btn" onClick={prevSlide}>‹</button>
-        <button className="slider-btn next-btn" onClick={nextSlide}>›</button>
+
+        <button className="slider-btn prev-btn" onClick={prevSlide}>
+          ‹
+        </button>
+        <button className="slider-btn next-btn" onClick={nextSlide}>
+          ›
+        </button>
+
         <div className="slider-dots">
           {slides.map((_, index) => (
-            <button 
+            <button
               key={index}
               className={`dot ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => goToSlide(index)}
             />
           ))}
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="featured-products">
+      <section id="products" className="featured-products">
         <div className="container">
           <h2 className="section-title">Featured Products</h2>
           <div className="products-grid">
@@ -128,55 +168,57 @@ export default function HomePage() {
       </section>
 
       {/* About Section */}
-      <section className="about-section">
+      <section id="about" className="about-section">
         <div className="container">
           <div className="about-content">
             <div className="about-text">
-              <h2>About Shades Design Furniture</h2>
+              <h2>About Our Company</h2>
               <p>
-                For over 20 years, Shades Design Furniture has been crafting exceptional 
-                furniture pieces that transform houses into homes. Our commitment to quality, 
-                style, and customer satisfaction has made us a trusted name in home furnishing.
-              </p>
-              <p>
-                From modern minimalist designs to classic traditional pieces, we offer a 
-                comprehensive range of furniture to suit every taste and budget.
+                We are dedicated to providing the best service and products to our customers. 
+                With years of experience and a passionate team, we strive to exceed expectations 
+                and deliver exceptional value.
               </p>
               <button className="about-btn">Learn More</button>
             </div>
             <div className="about-image">
-              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="About Us" />
+              <img
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                alt="About Us"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="footer">
+      <footer id="contact" className="footer">
         <div className="container">
           <div className="footer-content">
             <div className="footer-section">
-              <h3>Shades Design Furniture</h3>
-              <p>Creating beautiful spaces with quality furniture since 2004.</p>
+              <h3>Contact Us</h3>
+              <p>Email: info@yourbrand.com</p>
+              <p>Phone: (555) 123-4567</p>
+              <p>Address: 123 Main St, City, State</p>
             </div>
             <div className="footer-section">
-              <h4>Quick Links</h4>
+              <h3>Quick Links</h3>
               <ul>
-                <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
               </ul>
             </div>
             <div className="footer-section">
-              <h4>Contact Info</h4>
-              <p>📞 (977) 9800000000</p>
-              <p>📧 info@shadesdesign.com</p>
-              <p>📍 sirutar chowk, Bhaktapur</p>
+              <h3>Follow Us</h3>
+              <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+              </ul>
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 Shades Design Furniture. All rights reserved.</p>
+            <p>&copy; 2024 YourBrand. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -63,7 +63,8 @@
 
 .nav-buttons {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 10px;
 }
 
 .nav-btn {
@@ -473,4 +474,10 @@
   .next-btn {
     right: 15px;
   }
+}
+
+.user-welcome {
+  color: #333;
+  margin-right: 15px;
+  font-weight: 500;
 }
