@@ -80,7 +80,7 @@ export default function HomePage() {
       <nav className="navbar">
         <div className="nav-container">
           <div className="logo">
-            <h2>YourBrand</h2>
+            <h2>Shades Design</h2>
           </div>
           
           <ul className="nav-menu">
@@ -196,9 +196,9 @@ export default function HomePage() {
           <div className="footer-content">
             <div className="footer-section">
               <h3>Contact Us</h3>
-              <p>Email: info@yourbrand.com</p>
-              <p>Phone: (555) 123-4567</p>
-              <p>Address: 123 Main St, City, State</p>
+              <p>Email: info@shadesdesign.com</p>
+              <p>Phone: (+977) 9800000000 </p>
+              <p>Address: Sirutar, Bhaktapur City, Nepal</p>
             </div>
             <div className="footer-section">
               <h3>Quick Links</h3>
@@ -218,7 +218,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 YourBrand. All rights reserved.</p>
+            <p>&copy; 2024 Shades Design. All rights reserved.</p>
           </div>
         </div>
       </footer>
