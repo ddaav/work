@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import HomePage from './HomePage';
 import LoginPage from './LoginPage';
 import RegisterPage from './Register';
+import AdminPage from './components/AdminPage';
 import './App.css';
 
 function App() {
@@ -16,6 +17,11 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminPage />
+              </ProtectedRoute>
+            } />
           </Routes>
         </div>
       </Router>
