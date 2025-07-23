@@ -40,12 +40,16 @@ export default function LoginPage() {
       return;
     }
 
-    const result = await login(formData.email, formData.password);
+    const { success, user, error: loginError } = await login(formData.email, formData.password);
     
-    if (result.success) {
-      navigate('/');
+    if (success) {
+      if (user.isAdmin) {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     } else {
-      setError(result.error);
+      setError(loginError);
     }
     
     setLoading(false);

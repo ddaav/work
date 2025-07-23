@@ -8,6 +8,7 @@ export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   
   const slides = [
     {
@@ -27,51 +28,29 @@ export default function HomePage() {
     }
   ];
 
-  const featuredProducts = [
-    {
-      name: "Modern Sofa Set",
-      price: "Npr 1,00,000",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      category: "Living Room"
-    },
-    {
-      name: "Oak Dining Table",
-      price: "Npr 50,000",
-      image: "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      category: "Dining"
-    },
-    {
-      name: "Luxury Bed Frame",
-      price: "Npr 1,00,000",
-      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      category: "Bedroom"
-    },
-    {
-      name: "Office Chair",
-      price: "Npr 10,000",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      category: "Office"
-    },
-    {
-      name: "Accent Chair",
-      price: "Npr 10,000",
-      image: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      category: "Living Room"
-    },
-    {
-      name: "Coffee Table",
-      price: "Npr 10,000",
-      image: "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-      category: "Living Room"
-    }
-  ];
-
   const stats = [
     { number: "500+", label: "Happy Customers" },
     { number: "50+", label: "Products" },
     { number: "24/7", label: "Support" },
     { number: "5+", label: "Years Experience" }
   ];
+
+  useEffect(() => {
+    const fetchFurniture = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/furniture');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setFeaturedProducts(data);
+      } catch (error) {
+        console.error("Could not fetch furniture:", error);
+      }
+    };
+
+    fetchFurniture();
+  }, []);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -184,29 +163,29 @@ export default function HomePage() {
       </section>
 
       {/* Featured Products */}
-      <section id="products" className="featured-products">
-      <h2 className="section-title">Featured Products</h2>
-      <p className="section-subtitle">Discover our handpicked collection of premium furniture</p>
+      <section id="products" className="products-section">
         <div className="container">
-          <div className="section-header">
-           
-          </div>
+          <h2>Featured Products</h2>
           <div className="products-grid">
-            {featuredProducts.map((product, index) => (
-              <div key={index} className="product-card">
-                <div className="product-image">
-                  <img src={product.image} alt={product.name} />
-                  <div className="product-overlay">
-                    <button className="product-btn">View Details</button>
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product, index) => (
+                <div key={index} className="product-card">
+                  <div className="product-image">
+                    <img src={product.image} alt={product.name} />
+                    <div className="product-overlay">
+                      <button className="product-btn">View Details</button>
+                    </div>
+                    <div className="product-category">{product.category}</div>
                   </div>
-                  <div className="product-category">{product.category}</div>
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <p className="product-price">Npr {product.price}</p>
+                  </div>
                 </div>
-                <div className="product-info">
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-price">{product.price}</p>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No products available at the moment.</p>
+            )}
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -13,15 +13,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem('token'));
-
+  
   useEffect(() => {
-    // Check if user is logged in on app start
     const checkAuthStatus = async () => {
       const storedToken = localStorage.getItem('token');
       if (storedToken) {
         try {
-          // Verify token with backend
           const response = await fetch('http://localhost:5000/api/auth/verify', {
             headers: {
               'Authorization': `Bearer ${storedToken}`
@@ -31,17 +28,13 @@ export const AuthProvider = ({ children }) => {
           if (response.ok) {
             const userData = await response.json();
             setUser(userData.user);
-            setToken(storedToken);
           } else {
-            // Token is invalid, remove it
             localStorage.removeItem('token');
-            setToken(null);
             setUser(null);
           }
         } catch (error) {
           console.error('Auth verification failed:', error);
           localStorage.removeItem('token');
-          setToken(null);
           setUser(null);
         }
       }
@@ -65,9 +58,8 @@ export const AuthProvider = ({ children }) => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        setToken(data.token);
         setUser(data.user);
-        return { success: true };
+        return { success: true, user: data.user };
       } else {
         return { success: false, error: data.message };
       }
@@ -90,7 +82,6 @@ export const AuthProvider = ({ children }) => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        setToken(data.token);
         setUser(data.user);
         return { success: true };
       } else {
@@ -103,13 +94,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    setToken(null);
     setUser(null);
   };
 
   const value = {
     user,
-    token,
+    token: localStorage.getItem('token'),
     login,
     register,
     logout,

@@ -1,6 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -32,39 +32,56 @@ export const createUsersTable = async () => {
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
-      firstName VARCHAR(255) NOT NULL,
-      lastName VARCHAR(255) NOT NULL,
+      "firstName" VARCHAR(255) NOT NULL,
+      "lastName" VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      isAdmin BOOLEAN DEFAULT FALSE
+      password VARCHAR(255) NOT NULL
     );
   `;
   try {
     await pool.query(createTableQuery);
-    console.log('Users table created or already exists.');
+    console.log('Users table structure ensured.');
+
+    // Add isAdmin column if it doesn't exist
+    try {
+      await pool.query('ALTER TABLE users ADD COLUMN "isAdmin" BOOLEAN DEFAULT FALSE');
+      console.log('Added isAdmin column to users table.');
+    } catch (e) {
+      if (e.code !== '42701') { // ignore duplicate column error
+        throw e;
+      }
+    }
+    
     await createDefaultAdmin();
   } catch (err) {
-    console.error('Error creating users table:', err);
+    console.error('Error in createUsersTable:', err);
     throw err;
   }
 };
 
 export const createDefaultAdmin = async () => {
-  try {
-    const { rows } = await query("SELECT * FROM users WHERE email = 'admin'");
-    if (rows.length === 0) {
-      const hashedPassword = await bcrypt.hash('admin', 10);
-      await query(
-        "INSERT INTO users (firstName, lastName, email, password, isAdmin) VALUES ($1, $2, $3, $4, $5)",
-        ['Admin', 'User', 'admin', hashedPassword, true]
-      );
-      console.log('Default admin user created.');
+    try {
+      const adminEmail = 'admin@gmail.com';
+  
+      // Check if admin user already exists
+      const { rows } = await query("SELECT * FROM users WHERE email = $1", [adminEmail]);
+  
+      if (rows.length === 0) {
+        const hashedPassword = await bcrypt.hash('admin', 10);
+        await query(
+          'INSERT INTO users ("firstName", "lastName", email, password, "isAdmin") VALUES ($1, $2, $3, $4, $5)',
+          ['Admin', 'User', adminEmail, hashedPassword, true]
+        );
+        console.log('Default admin user created.');
+      } else {
+        console.log('Admin user already exists. Skipping creation.');
+      }
+    } catch (err) {
+      console.error('Error creating default admin user:', err);
+      throw err;
     }
-  } catch (err) {
-    console.error('Error creating default admin user:', err);
-    throw err;
-  }
-};
+  };
+  
 
 export const createFurnitureTable = async () => {
   const createTableQuery = `
