@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { useCart } from './contexts/CartContext';
 import './HomePage.css';
 
 export default function HomePage() {
@@ -9,6 +10,7 @@ export default function HomePage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const { cart } = useCart ? useCart() : { cart: [] };
   
   const slides = [
     {
@@ -95,6 +97,22 @@ export default function HomePage() {
           </ul>
 
           <div className="nav-buttons">
+            <Link to="/cart" className="nav-btn" style={{ position: 'relative', marginRight: '10px' }}>
+              🛒
+              {cart && cart.length > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  background: '#dc3545',
+                  color: 'white',
+                  borderRadius: '50%',
+                  padding: '2px 7px',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                }}>{cart.length}</span>
+              )}
+            </Link>
             {user ? (
               <>
                 <span className="user-welcome">Welcome, {user.firstName}!</span>

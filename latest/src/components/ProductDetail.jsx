@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -37,7 +40,28 @@ export default function ProductDetail() {
         <h2 style={{ marginBottom: '12px', color: '#2c3e50' }}>{product.name}</h2>
         <p style={{ fontSize: '18px', color: '#735813', marginBottom: '8px' }}>Npr {product.price}</p>
         <p style={{ color: '#888', marginBottom: '16px' }}>Category: {product.category}</p>
-        {/* Add more product details here if available */}
+        <button
+          onClick={() => {
+            addToCart(product);
+            setAdded(true);
+            setTimeout(() => setAdded(false), 1500);
+          }}
+          style={{
+            padding: '12px 32px',
+            background: '#735813',
+            color: 'white',
+            border: 'none',
+            borderRadius: '25px',
+            fontWeight: 600,
+            fontSize: '1rem',
+            cursor: 'pointer',
+            marginTop: '16px',
+            marginBottom: '8px',
+            transition: 'all 0.2s',
+          }}
+        >
+          {added ? 'Added!' : 'Add to Cart'}
+        </button>
       </div>
     </div>
   );
