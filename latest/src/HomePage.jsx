@@ -173,7 +173,7 @@ export default function HomePage() {
                   <div className="product-image">
                     <img src={product.image} alt={product.name} />
                     <div className="product-overlay">
-                      <button className="product-btn">View Details</button>
+                      <Link to={`/product/${product.id}`} className="product-btn">View Details</Link>
                     </div>
                     <div className="product-category">{product.category}</div>
                   </div>
