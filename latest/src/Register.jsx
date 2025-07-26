@@ -172,7 +172,7 @@ export default function RegisterPage() {
         <div className="footer">
           <p className="login-text">
             Already have an account?{' '}
-            
+            <Link to="/login" className="link">
               Sign in here
             </Link>
           </p>
