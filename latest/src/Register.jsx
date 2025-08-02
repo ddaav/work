@@ -173,7 +173,7 @@ export default function RegisterPage() {
           <p className="login-text">
             Already have an account?{' '}
             <Link to="/login" className="link">
-           
+              Sign in here
             </Link>
           </p>
         </div>
