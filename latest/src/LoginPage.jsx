@@ -19,7 +19,7 @@ export default function LoginPage() {
       ...formData,
       [e.target.name]: e.target.value
     });
-    setError(''); 
+    setError(''); // Clear error when user starts typing
   };
 
   const handleSubmit = async (e) => {
