@@ -215,7 +215,9 @@ export default function HomePage() {
             <div className="about-text">
               <h2>About Our Company</h2>
               <p>
-                
+                We are dedicated to providing the best service and products to our customers. 
+                With years of experience and a passionate team, we strive to exceed expectations 
+                and deliver exceptional value.
               </p>
               <div className="about-features">
                 <div className="feature">
